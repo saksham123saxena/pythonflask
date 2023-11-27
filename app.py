@@ -21,24 +21,18 @@ class Todo(db.Model):
 @app.route('/',methods=['GET','POST'])
 def hello_word():
     if(request.method=='POST'):
-        print(request.form['title'])
-        print("it is the post API!!")
         title=request.form['title']
         desc=request.form['desc']
         todo=Todo(title=title,desc=desc)
         db.session.add(todo) 
         db.session.commit()
     allTodo=Todo.query.all() 
-    # return 'hello world! this is the flask || tutorial!!'
     return render_template('index.html', allTodo=allTodo)
 
 @app.route('/update/<int:sno>',methods=['GET','POST'])
 def update(sno):
     if(request.method=='POST'):
-        print("--= enter the first stage of upadate =--")
         # it is update operation
-        print(request.form['title'])
-        print("it is the post API!!")
         title=request.form['title']
         desc=request.form['desc']
         todo=Todo.query.filter_by(sno=sno).first()
@@ -46,11 +40,9 @@ def update(sno):
         todo.desc=desc
         db.session.add(todo) 
         db.session.commit()
-        print("==== enter the update last stage ====")
         return redirect("/")
 
     todo=Todo.query.filter_by(sno=sno).first()
-    print("---  going to update page---")
     print(todo)
     return render_template('update.html', todo=todo)
 
@@ -61,13 +53,6 @@ def delete(sno):
     db.session.commit()
     return redirect("/")
 
-
-@app.route('/show')
-def show():
-    todoall=Todo.query.all() 
-    print(todoall)
-    print("hello world for showing the python route!!")
-    return 'this is the production page!'
 
 @app.route('/html')
 def htmluse():
